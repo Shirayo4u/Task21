@@ -37,7 +37,18 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
+        Session session = SESSION_FACTORY.openSession();
+        try {
+            session.beginTransaction();
 
+            session.createNativeQuery("DROP TABLE IF EXISTS usr")
+                    .executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     @Override
@@ -101,6 +112,16 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-
+        Session session = SESSION_FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            session.createNativeQuery("truncate table usr").executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
     }
 }

@@ -115,7 +115,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = SESSION_FACTORY.openSession();
         try {
             session.beginTransaction();
-            session.createNativeQuery("truncate table usr").executeUpdate();
+            session.createNativeQuery("TRUNCATE TABLE usr").executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();

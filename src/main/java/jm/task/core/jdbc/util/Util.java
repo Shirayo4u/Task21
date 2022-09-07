@@ -14,7 +14,8 @@ public class Util {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "admin";
-    private static final String DIALECT = "org.hibernate.dialect.PostgeSQLDriver";
+    private static final String DIALECT = "org.hibernate.dialect.PostgreSQLDialect";
+    private static final String DRIVER = "org.postgresql.Driver";
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -29,13 +30,13 @@ public class Util {
                 .setProperty("hibernate.connection.url", URL)
                 .setProperty("hibernate.connection.username", USERNAME)
                 .setProperty("hibernate.connection.password", PASSWORD)
-                .setProperty("hibernate.dialect", DIALECT);
+                .setProperty("hibernate.dialect", DIALECT)
+                .setProperty("hibernate.driver_class", DRIVER);
 
         configuration.addAnnotatedClass(User.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
-    //sdfgjkjkgsjdfjkskd
 }
 

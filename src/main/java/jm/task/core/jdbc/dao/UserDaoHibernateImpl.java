@@ -4,6 +4,7 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -25,8 +26,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
+
         Session session = SESSION_FACTORY.openSession();
-        try  {
+        try {
             session.beginTransaction();
 
             session.createNativeQuery(CREATE_TABLE_SQL).executeUpdate();
@@ -60,7 +62,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         Session session = SESSION_FACTORY.openSession();
-        try{
+        try {
             session.beginTransaction();
 
             User user = new User();
@@ -74,7 +76,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -82,7 +84,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
         Session session = SESSION_FACTORY.openSession();
-        try{
+        try {
 
             session.beginTransaction();
             User user = session.get(User.class, id);
@@ -97,7 +99,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         Session session = SESSION_FACTORY.openSession();
-        try{
+        try {
             session.beginTransaction();
 
             List<User> userList = session.createQuery(FROM_TABLE_SQL).getResultList();
@@ -107,7 +109,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
         return null;
@@ -116,14 +118,14 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void cleanUsersTable() {
         Session session = SESSION_FACTORY.openSession();
-        try{
+        try {
             session.beginTransaction();
             session.createNativeQuery(CLEAN_TABLE_SQL).executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
     }
